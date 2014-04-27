@@ -20,8 +20,6 @@ Change numeric arrays to boolean
 '''
 
 import numpy as np
-#from scipy.spatial.distance import euclidean
-#from scipy.spatial.distance import pdist
 from sklearn.metrics.pairwise import pairwise_distances #output is easier to work with than 'pdist' 
 
 class DBSCAN:
@@ -29,7 +27,6 @@ class DBSCAN:
     classdocs
     '''
 
-    #def __init__(self, data, minPts=5, eps=.1, dist_fun=euclidean):
     def __init__(self, data, minPts=5, eps=.1):
         '''
         Constructor
@@ -38,14 +35,10 @@ class DBSCAN:
         self.eps = eps
         #self.dist_fun = dist_fun
         #self.points = self._transform_data(data)
-        #self.points = map(self._transform_data, data)
         
         self.num_points = data.shape[0]
         self.num_features = data.shape[1]
-        #self.dist_mat = pdist(data)
         self.dist_mat = pairwise_distances(data)
-        #self.clusters = set() #will probably need to change this
-        #self.clusters = [] #will probably need to change this
         self.visited = np.zeros(self.num_points)
         self.noise = np.zeros(self.num_points) #what's the point of this?
         self.cluster_assignment = np.zeros(self.num_points) #cluster==0 --> cluster unassigned
@@ -56,19 +49,6 @@ class DBSCAN:
          
     def _region_query(self, this_point):
         # I need to to be a list vs an array so that I can extend it while looping in "_expand_cluster"
-        #print len(self.dist_mat)
-        #print
-        #print self.dist_mat.shape
-        #print
-        #print self.dist_mat
-        #print
-        #print this_point
-        #print
-        #print self.dist_mat[this_point,:]
-        #print
-        #print self.dist_mat[this_point,:] < self.eps
-        #print
-        #print np.where(self.dist_mat[this_point,:] < self.eps)
         return np.where(self.dist_mat[this_point,:] < self.eps)[0].tolist() 
     
     def _expand_cluster(self,base_point,neighbors):
@@ -79,7 +59,6 @@ class DBSCAN:
                 new_neighbors = self._region_query(this_point)
                 if len(new_neighbors) >= self.minPts:
                     neighbors += new_neighbors
-                    #neighbors = np.concatenate((neighbors,new_neighbors)) #is this ok to do while looping?
             if self.cluster_assignment[this_point] == 0:
                 self.cluster_assignment[this_point] = self.current_cluster
                 
