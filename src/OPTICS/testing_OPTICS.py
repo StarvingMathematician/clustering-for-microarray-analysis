@@ -7,6 +7,9 @@ The 'cluster_std' parameter of sklearn's 'make_blobs' is broken; just run the fu
 
 Hooray, everything work! (It's terribly slow, though.)
 
+NOTE: THIS DOESN'T ACTUALLY WORK PROPERLY:
+I'M FORGETTING TO REMOVE THE "UNDEFINED" POINTS BEFORE PLOTTING
+
 @author: Jonathan Simon
 '''
 

@@ -6,6 +6,9 @@ Basic OPTICS algorithm
 Current 'region_query' method is incredibly slow/redundant;
 try to combine it with 'get_core_distance' (use a k-d tree) 
 
+NOTE: THIS ALGORITHM IS INCORRECT
+IT FAILS TO IDENTIFY/EXCLUDE CERTAIN NON-REACHABLE POINTS 
+
 @author: Jonathan Simon
 '''
 
@@ -64,7 +67,7 @@ class OPTICS:
     def _update(self, this_point, neighbors):
         for neighbor in neighbors:
             if not self.visited[neighbor]:
-                new_reachability_dist = max(self.core_dist[this_point],self.dist_mat[this_point,neighbor])
+                new_reachability_dist = max(self.core_dist[this_point],self.dist_mat[this_point,neighbor]) #THIS IS INCORRECT; IT PRODUCES FALSE RESULTS WHEN "core_dist==-1"
                 if self.reachability_dist[neighbor] == -1: #'neighbor' not yet in 'seeds'
                     self.seeds.add((neighbor,new_reachability_dist))
                     self.reachability_dist[neighbor] = new_reachability_dist
